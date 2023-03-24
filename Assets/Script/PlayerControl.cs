@@ -10,7 +10,7 @@ public class PlayerControl : MonoBehaviour
     public Text scoreText;
     private int _score = 0;
 
-    private void Awake()  
+    private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
     }
@@ -28,23 +28,29 @@ public class PlayerControl : MonoBehaviour
         // dir *= Time.deltaTime;
         // transform.Translate(dir * speed);
 
-         float h = Input.GetAxis("Horizontal") * speed * Time.fixedDeltaTime;
-         float v = Input.GetAxis("Vertical") * speed * Time.fixedDeltaTime;
+        float h = Input.GetAxis("Horizontal") * speed * Time.fixedDeltaTime;
+        float v = Input.GetAxis("Vertical") * speed * Time.fixedDeltaTime;
 
-         _rb.velocity = transform.TransformDirection(new Vector3(v, _rb.velocity.y, -h));
-        
+        _rb.velocity = transform.TransformDirection(new Vector3(v, _rb.velocity.y, -h));
+
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Respawn")
+        if (other.gameObject.tag == "Respawn")
         {
             _score++;
             Destroy(other.gameObject);
 
-            if(_score != 5)
-            scoreText.text = "Score: " + _score;
+            if (_score != 6)
+                scoreText.text = "Score: " + _score;
+
+        }
+        if (other.gameObject.tag == "Finish")
+        { 
+            if (_score == 5)
+                scoreText.text = "You win!";
             else
-            scoreText.text = "You win!";
+                scoreText.text = "You lose!";
         }
     }
 }
