@@ -9,6 +9,9 @@ public class PlayerControl : MonoBehaviour
 
     public Text scoreText;
     private int _score = 0;
+    private int _scoreEnd = 0;
+
+    private string text = "Score: ";
 
     private void Awake()
     {
@@ -41,13 +44,26 @@ public class PlayerControl : MonoBehaviour
             _score++;
             Destroy(other.gameObject);
 
-            if (_score != 6)
-                scoreText.text = "Score: " + _score;
-
+            if (_score != 8 && _scoreEnd < 2)
+                scoreText.text = text + _score;
+            else
+                scoreText.text = "You lose!";
         }
+        if (other.gameObject.tag == "EditorOnly")
+        {
+            _score--;
+            _scoreEnd++;
+            Destroy(other.gameObject);
+
+            if (_scoreEnd < 2)
+                scoreText.text = text + _score;
+            else
+                scoreText.text = "You lose!";
+        }
+
         if (other.gameObject.tag == "Finish")
         { 
-            if (_score == 5)
+            if (_score >= 6)
                 scoreText.text = "You win!";
             else
                 scoreText.text = "You lose!";
