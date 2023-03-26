@@ -1,10 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerControl : MonoBehaviour
 {
     public float speed = 5f;
-
+    
     private Rigidbody _rb;
 
     public Text scoreText;
@@ -17,13 +18,17 @@ public class PlayerControl : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
     }
+    private void Start ()
+    {
+        GameObject.Find("Time").GetComponent<Timer>().timeStart = 30;
+    }
 
     private void FixedUpdate()
     {
-        // Vector3 acceleration = Input.acceleration;
+        //1. Vector3 acceleration = Input.acceleration;
         // GetComponent<Rigidbody>().velocity = new Vector3(acceleration.x, acceleration.z, 0);
 
-        // Vector3 dir = Vector3.zero;
+        //2. Vector3 dir = Vector3.zero;
         // dir.x = -Input.acceleration.y;
         // dir.z = Input.acceleration.x;
         // if (dir.sqrMagnitude > 1)
@@ -35,6 +40,9 @@ public class PlayerControl : MonoBehaviour
         float v = Input.GetAxis("Vertical") * speed * Time.fixedDeltaTime;
 
         _rb.velocity = transform.TransformDirection(new Vector3(v, _rb.velocity.y, -h));
+
+        if (GameObject.Find("Time").GetComponent<Timer>().timeStart == 0)
+            scoreText.text = "You lose!";
 
     }
     private void OnTriggerEnter(Collider other)
@@ -68,5 +76,6 @@ public class PlayerControl : MonoBehaviour
             else
                 scoreText.text = "You lose!";
         }
+       
     }
 }
