@@ -75,7 +75,6 @@ public class PlayerControl : MonoBehaviour
                 scoreText.text = "You win!";
             else
                 scoreText.text = "You lose!";
-        }
-       
+        }       
     }
 }
